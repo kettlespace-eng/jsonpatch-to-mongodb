@@ -13,9 +13,10 @@ module.exports = function(patches){
       var positionPart = parts.length > 1 && parts[parts.length - 1];
       var addToEnd = positionPart === '-';
       var key = parts.slice(0, -1).join('.');
-      var $position = positionPart && parseInt(positionPart, 10) || null;
+      var $position = addToEnd || positionPart === '' ? null : +positionPart;
 
-      if ($position !== null) {
+      if ($position != null && !Number.isNaN($position)) {
+        $position = $position |0;
         update.$push = update.$push || {};
         if (update.$push[key] === undefined) {
           update.$push[key] = {
